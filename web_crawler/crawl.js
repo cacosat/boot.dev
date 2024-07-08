@@ -1,3 +1,5 @@
+import { JSDOM } from 'jsdom';
+
 function normalizeURL(url) {
     // return url normalized, ex.: blog.boot.dev/path
     // meaning: hostname/pathname
@@ -14,4 +16,14 @@ function normalizeURL(url) {
     }
 }
 
-export { normalizeURL };
+function getUrlsFromHtml(htmlBody, baseURL) {
+    /*
+    Takes a string of HTML as input and returns
+    a list of all the link URLs (un-normalized) using JSDOM
+    */
+   const htmlDOM = new JSDOM(htmlBody);
+   const document = htmlDOM.window.document;
+
+}
+
+export { normalizeURL, getUrlsFromHtml };

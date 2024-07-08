@@ -1,4 +1,4 @@
-import { normalizeURL } from "./crawl";
+import { normalizeURL, getUrlsFromHtml } from "./crawl";
 import { test, expect } from "@jest/globals"
 
 /* EXAMPLE TEST
@@ -14,4 +14,8 @@ test('normalizeURL test', () => {
     expect(normalizeURL('https://blog.boot.dev/path')).toBe('blog.boot.dev/path');
     expect(normalizeURL('http://blog.boot.dev/path/')).toBe('blog.boot.dev/path');
     expect(normalizeURL('http://blog.boot.dev/path')).toBe('blog.boot.dev/path');
+})
+
+test('get urls from html', () => { 
+    expect(getUrlsFromHtml('')).toBe('');
 })
