@@ -23,7 +23,16 @@ function getUrlsFromHtml(htmlBody, baseURL) {
     */
    const htmlDOM = new JSDOM(htmlBody);
    const document = htmlDOM.window.document;
-
+   const anchorTags = document.querySelectorAll('a');
+   let links = [];
+   for (let anchor of anchorTags) {
+    links.push(anchor.getAttribute('href'))
+   }
+   console.log(links)
 }
 
 export { normalizeURL, getUrlsFromHtml };
+
+const testHtml = '<html><body><a href="https://blog.boot.dev"><span>Go to Boot.dev</span></a><main><a href="google.com">Test Button</a></main></body></html>'
+const bootUrl = 'https://blog.boot.dev'
+getUrlsFromHtml(testHtml, bootUrl)
