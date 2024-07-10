@@ -26,13 +26,21 @@ function getUrlsFromHtml(htmlBody, baseURL) {
    const anchorTags = document.querySelectorAll('a');
    let links = [];
    for (let anchor of anchorTags) {
-    links.push(anchor.getAttribute('href'))
+    if (anchor.hasAttribute('href')) {
+        try {
+            const url = new URL(anchor.getAttribute('href'));
+            console.log(url)
+            links.push(url.origin)
+        } catch (err) {
+            console.log({error: err, log: "error creating URL obj"})
+        }
+    }
    }
-   console.log(links)
+   return links;
 }
 
 export { normalizeURL, getUrlsFromHtml };
 
-const testHtml = '<html><body><a href="https://blog.boot.dev"><span>Go to Boot.dev</span></a><main><a href="google.com">Test Button</a></main></body></html>'
+const testHtml = '<html><body><a href="https://blog.boot.dev/test/sub-test?q=0&test=test"><span>Go to Boot.dev</span></a><main><a href="google.com">Test Button</a></main></body></html>'
 const bootUrl = 'https://blog.boot.dev'
 getUrlsFromHtml(testHtml, bootUrl)
