@@ -39,8 +39,18 @@ function getUrlsFromHtml(htmlBody, baseURL) {
    return links;
 }
 
-export { normalizeURL, getUrlsFromHtml };
+async function crawlPage(baseURL, currentURL = baseURL, pages = {}) {
+    const formattedUrl = currentURL.startsWith('http://') || currentURL.startsWith('https://') ? currentURL : `http://${currentURL}`;
+    const urlObj = new URL(formattedUrl);
+    const response = await fetch(urlObj);
+    // if (response.status >= 400 || response.headers)
+    const data = await response.text();
+    const contentTypeHeader = response.headers.get('content-type');
+    if (response.status >= 400 || !contentTypeHeader.includes('text/html')) {
+        console.log(`Error with request: ${response.status} status code; content-type header: ${contentTypeHeader}`)
+    } else {
+        console.log(data);
+    }
+}
 
-const testHtml = '<html><body><a href="https://blog.boot.dev/test/sub-test?q=0&test=test"><span>Go to Boot.dev</span></a><main><a href="google.com">Test Button</a></main></body></html>'
-const bootUrl = 'https://blog.boot.dev'
-getUrlsFromHtml(testHtml, bootUrl)
+export { normalizeURL, getUrlsFromHtml, crawlPage };
